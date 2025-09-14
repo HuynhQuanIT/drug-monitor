@@ -22,8 +22,14 @@ exports.create = (req,res)=>{
     drug
         .save(drug)//use the save operation on drug
         .then(data => {
-            console.log(`${data.name} added to the database`) 
-            res.redirect('/manage');
+            console.log(`${data.name} added to the database`);
+            res.format({
+                'application/json': () => res.json(data),
+                'text/html': () => res.redirect('/manage'),
+                'default': () => res.redirect('/manage')
+            });
+            // res.redirect('/manage');
+            // res.json(data);
         })
         .catch(err =>{
             res.status(500).send({//catch error
@@ -73,7 +79,7 @@ exports.update = (req,res)=>{
     }
 
     const id = req.params.id;
-    Drugdb.findByIdAndUpdate(id, req.body, { useFindAndModify: false})
+    Drugdb.findByIdAndUpdate(id, req.body, { useFindAndModify: false, new: true })
         .then(data => {
             if(!data){
                 res.status(404).send({ message : `Drug with id: ${id} cannot be updated`})

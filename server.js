@@ -7,6 +7,7 @@ const connectMongo = require('./server/database/connect');//requires connect.js 
 const PORT = process.env.PORT || 3100; //uses either what's in our env or 3100 as our port (you can use any unused port)
 
 
+app.use(express.json());//this helps us parse json data
 app.set('view engine', 'ejs');//Put before app.use, etc. Lets us use EJS for views
 //use body-parser to parse requests
 app.use(bodyParser.urlencoded({extended:true}));
