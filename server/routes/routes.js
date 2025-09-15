@@ -1,30 +1,25 @@
-const express = require('express');// As in the server.js
-const route = express.Router(); //Allows us use express router in this file
-const services = require('../services/render');//uses the render.js file from services here
+const express = require('express'); // As in the server.js
+const route = express.Router();     // Allows us use express router in this file
+const services = require('../services/render'); // view render
+const controller = require('../controller/controller'); // CRUD controller
+const validateDrug = require('../middlewares/validation'); // validation middleware
 
-const controller = require('../controller/controller');//uses the render.js file from services here
-const validateDrug = require('../middlewares/validation');//uses the validation.js file from middlewares here
-
-const errorHandler = require('../middlewares/errorHandler');//uses the errorHandler.js file from middlewares here
-
+// ------------------ VIEWS ------------------ //
 route.get('/', services.home);
-
-
 route.get('/manage', services.manage);
 route.get('/dosage', services.dosage);
-route.get('/purchase', services.purchase);
 route.get('/add-drug', services.addDrug);
 route.get('/update-drug', services.updateDrug);
+route.get('/purchase', services.purchase);
+
+// Purchase page (render + logic)
+route.post('/purchase', controller.postPurchasePage);
 
 
-
-// API for CRUD operations
+// ------------------ API (CRUD) ------------------ //
 route.post('/api/drugs', validateDrug, controller.create);
 route.get('/api/drugs', controller.find);
 route.put('/api/drugs/:id', validateDrug, controller.update);
 route.delete('/api/drugs/:id', controller.delete);
 
-// Attach error handler for this router
-route.use(errorHandler);
-
-module.exports = route;//exports this so it can always be used elsewhere
+module.exports = route; // exports this so it can always be used elsewhere

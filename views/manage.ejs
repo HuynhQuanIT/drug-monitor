@@ -33,16 +33,48 @@
 					<a href="/update-drug?id=<%= drugs[i]._id%>">
 						<span class='fa fa-edit'></span>
 					</a>
-					<a class="delete" data-id=<%= drugs[i]._id%> ><!-- give each delete button a unique ID -->
+					<a href="javascript:void(0);" 
+					   class="delete" 
+					   data-id="<%= drugs[i]._id%>">
 						<span class='fa fa-trash'></span>
 					</a>
 				</td>
 			</tr>
-			<% } %> <!--  End loop -->
+			<% } %> <!-- End loop -->
 		</tbody>
 	</table>
 </main>
 <!-- End main section -->
+
 <!-- add footer -->
 <%- include('includes/_footer') %>
-<!-- end footer
+<!-- end footer -->
+
+<!-- jQuery AJAX -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(function() {
+    $(".delete").on("click", function(e) {
+        e.preventDefault();
+        var id = $(this).data("id");
+
+        if (!confirm("Bạn có chắc chắn muốn xóa thuốc này?")) return;
+
+        $.ajax({
+            url: "/api/drugs/" + id,
+            type: "DELETE",   // gọi đúng route.delete
+            success: function(res) {
+                alert("Xóa thành công!");
+                console.log(res);
+
+                // Xóa row khỏi bảng mà không cần reload trang
+                $("#row-" + id).remove();
+            },
+            error: function(xhr, status, err) {
+                alert("Có lỗi xảy ra: " + err);
+                console.error(xhr.responseText);
+            }
+        });
+    });
+});
+</script>

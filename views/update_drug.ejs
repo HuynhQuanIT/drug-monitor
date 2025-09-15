@@ -1,6 +1,7 @@
 <!-- add header -->
 <%- include('includes/_header') %>
 <!-- end header -->
+
 <!-- Main section -->
 <main id="main">
   <a href="/manage">
@@ -8,9 +9,10 @@
   </a>
 
   <h2>Edit <%= drug.name %></h2>
-<p>Use the below form to edit <%= drug.name %></p>
- <!-- Update drug form -->
- <form method="POST" id="update_drug">
+  <p>Use the below form to edit <%= drug.name %></p>
+
+  <!-- Update drug form -->
+  <form id="update_drug" action="/api/drugs/<%= drug._id %>">
     <div class="container d-flex flex-column align-items-stretch">
         <div class="row mb-3 form-group justify-content-center">             
             <label for="name" class="col-3 col-form-label">Drug Name</label>
@@ -19,15 +21,15 @@
         </div>
         <div class="row mb-3 form-group justify-content-center">
             <label for="card" class="col-3 col-form-label">Tablets per Card</label>
-            <input type="number" name="card" value="<%= drug.card %>" placeholder="Tablets per Card" min="1" max="500" class="col-xs-8 col-md-4">
+            <input type="number" name="card" value="<%= drug.card %>" placeholder="Tablets per Card" class="col-xs-8 col-md-4">
         </div>
         <div class="row mb-3 form-group justify-content-center">
             <label for="pack" class="col-3 col-form-label">Tablets per Pack</label>
-            <input type="number" name="pack" value="<%= drug.pack %>" placeholder="Tablets per Pack" min="1" max="500" class="col-xs-8 col-md-4">
+            <input type="number" name="pack" value="<%= drug.pack %>" placeholder="Tablets per Pack" class="col-xs-8 col-md-4">
         </div>
         <div class="row mb-3 form-group justify-content-center">
             <label for="perDay" class="col-3 col-form-label">Taken per day</label>
-            <input type="number" name="perDay" value="<%= drug.perDay %>" placeholder="Taken per day" min="1" max="500" class="col-xs-8 col-md-4">
+            <input type="number" name="perDay" value="<%= drug.perDay %>" placeholder="Taken per day" class="col-xs-8 col-md-4">
         </div>
         <div class="row mb-3 form-group justify-content-center">             
             <label for="dosage" class="col-3 col-form-label">Dosage</label>
@@ -38,9 +40,46 @@
             <button type="submit">Edit Drug</button>
         </div>
     </div>
-</form>
+  </form>
 </main>
 <!-- End main section -->
+
 <!-- add footer -->
 <%- include('includes/_footer') %>
-<!-- end footer-->
+<!-- end footer -->
+
+<!-- jQuery AJAX -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(function() {
+    $("#update_drug").on("submit", function(e) {
+        e.preventDefault();
+
+        var form = $(this);
+        var url = form.attr("action");
+
+        // Lấy data từ form -> object
+        var data = {};
+        form.serializeArray().forEach(function(item) {
+            data[item.name] = item.value;
+        });
+
+        $.ajax({
+            url: url,
+            type: "PUT",                      // gọi đúng route.put
+            contentType: "application/json",  // gửi JSON
+            data: JSON.stringify(data),
+            success: function(res) {
+                alert("Drug updated successfully!");
+                console.log(res);
+                // chuyển về trang danh sách nếu muốn
+                // window.location.href = "/manage";
+            },
+            error: function(xhr, status, err) {
+                alert("Error: " + err);
+                console.error(xhr.responseText);
+            }
+        });
+    });
+});
+</script>

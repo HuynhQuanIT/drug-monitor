@@ -15,24 +15,24 @@
         <div class="row mb-3 form-group justify-content-center">             
             <label for="name" class="col-3 col-form-label">Drug Name</label>
             <input type="hidden" name="id" value="">
-            <input type="text" id="name" name="name" value="" placeholder="Drug Name" class="col-md-4 col-xs-8" required>
+            <input type="text" id="name" name="name" value="" placeholder="Drug Name" class="col-md-4 col-xs-8" minlength="5" required>
         </div>
         <div class="row mb-3 form-group justify-content-center">
             <label for="card" class="col-3 col-form-label">Tablets per Card</label>
-            <input type="number" name="card" value="" placeholder="Tablets per Card" min="1" max="500" class="col-xs-8 col-md-4" required>
+            <input type="number" name="card" value="" placeholder="Tablets per Card" class="col-xs-8 col-md-4" min="1000" required>
         </div>
         <div class="row mb-3 form-group justify-content-center">
             <label for="pack" class="col-3 col-form-label">Tablets per Pack</label>
-            <input type="number" name="pack" value="" placeholder="Tablets per Pack" min="1" max="500" class="col-xs-8 col-md-4" required>
+            <input type="number" name="pack" value="" placeholder="Tablets per Pack" class="col-xs-8 col-md-4" min="1" required>
         </div>
         <div class="row form-group mb-3 justify-content-center">
             <label for="perDay" class="col-3 col-form-label">Taken per day</label>
-            <input type="number" name="perDay" value="" placeholder="Taken per day" min="1" max="500" class="col-xs-8 col-md-4" required>
+            <input type="number" name="perDay" value="" placeholder="Taken per day" class="col-xs-8 col-md-4" min="1" max="89" required>
         </div>
         <div class="row mb-3 form-group justify-content-center">             
             <label for="dosage" class="col-3 col-form-label">Dosage</label>
             <input type="hidden" name="id" value="">
-            <input type="text" id="dosage" name="dosage" value="" placeholder="Dosage" class="col-md-4 col-xs-8" required>
+            <input type="text" id="dosage" name="dosage" value="" placeholder="Dosage" class="col-md-4 col-xs-8" pattern="^\d{1,2}-morning,\d{1,2}-afternoon,\d{1,2}-night$" title="Dosage must be in the format: XX-morning,XX-afternoon,XX-night (X is a number)." required>
         </div>
         <div class="form-group">
             <button type="submit">Add Drug</button>
